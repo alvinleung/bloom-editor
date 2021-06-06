@@ -1,28 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useRenderer } from "./useRenderer";
 
 import "./Viewport.css";
 
-interface Props {}
+interface Props {
+  image: HTMLImageElement;
+}
 
-export const Viewport = (props: Props) => {
-  const viewportRef = useRef<HTMLDivElement>();
-
+export const Viewport = ({ image }: Props) => {
   const [viewportWidth, setViewportWidth] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
+  const viewportRef = useRenderer(image);
 
-  useEffect(() => {
-    const boundingBox = viewportRef.current.getBoundingClientRect();
-    setViewportWidth(boundingBox.width * window.devicePixelRatio);
-    setViewportHeight(boundingBox.height * window.devicePixelRatio);
-  }, []);
-
-  return (
-    <div className="viewport" ref={viewportRef}>
-      <canvas
-        className="viewport__canvas"
-        width={viewportWidth}
-        height={viewportHeight}
-      />
-    </div>
-  );
+  return <div className="viewport" ref={viewportRef}></div>;
 };
